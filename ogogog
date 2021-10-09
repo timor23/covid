@@ -1,0 +1,21 @@
+ed6rx.csb.app
+z1pwe.cbs.app
+
+
+async function getData(){
+let data1 = await (await fetch('https://corona-api.com/countries')).json();
+let data2 = await (await fetch('https://cors-anywhere.herokuapp.com/https://restcountries.herokuapp.com/api/v1')).json();
+data1 console.log(":",data1,":",data2); //
+setCart({data1:data1,data2:data2});
+}
+
+
+
+<div class="dot-windmill" </div>
+
+/* WINDMILL */ .dot-windmill { position: relative; top: -10px; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; transform-origin: 5px 15px; animation: dotWindmill 2s infinite linear; } .dot-windmill::before, .dot-windmill::after { content: ""; display: inline-block; position: absolute; } .dot-windmill::before { left: -8.66px; top: 15px; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; } .dot-windmill::after { left: 8.66px; top: 15px; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; } @keyframes dotWindmill { 0% { transform: rotateZ(0deg) translate3d(0, 0, 0); } 100% { transform: rotateZ(720deg) translate3d(0, 0, 0); } }
+
+
+body::-webkit-scrollbar { display: none; }
+
+async function getData(){ let data1 = await (await fetch('https://corona-api.com/countries')).json(); let data2 = await (await fetch('https://cors-anywhere.herokuapp.com/https://restcountries.herokuapp.com/api/v1')).json(); data1 console.log(":",data1,":",data2); // setCart({data1:data1,data2:data2}); }
