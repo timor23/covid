@@ -1,12 +1,13 @@
 const regionButtons = document.querySelectorAll(`.reg-btn`),
-    stats = document.querySelectorAll(`.case-btn`);
+    statsButtons = document.querySelectorAll(`.case-btn`),
+    chartContainer = document.querySelector("#chartContainer");
 
-const cors = `https://cors-anywhere.herokuapp.com/`,
+const cors = `https://api.allorigins.win/raw?url=`,
     dataURL = `https://corona-api.com/countries`,
     countriesURL = 'https://restcountries.herokuapp.com/api/v1';
 
-let currentRegion = `world`,
-    currentStats = `confirmed`;
+let currentRegion = `World`,
+    currentStats = `Confirmed`;
 
 const world = {
     asia: {},
@@ -15,7 +16,7 @@ const world = {
     america: {}
 }
 // Run
-getData();
+getData().then(r => console.log(r));
 console.log(world.europe);
 filterData(currentRegion,currentStats);
 
@@ -57,9 +58,13 @@ async function getData() {
         }
 
     }
+    localStorage.setItem("world", JSON.stringify(world));
 }
 function drawChart(labels, data, stats) {
-    const ctx = document.querySelector('#myChart').getContext('2d');
+    const canvas = document.createElement(`canvas`);
+    chartContainer.appendChild(canvas);
+    const ctx = canvas.getContext(`2d`);
+
     const myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -90,48 +95,46 @@ function drawChart(labels, data, stats) {
 }
 
 function filterData(region , stats) {
-    let cont ;
-
-    // console.log(world.all); //// temp
+    let cont = {};
+    let allData = JSON.parse(localStorage.getItem("world"));
     switch (region) {
-        case "world":
-            // cont = world.all;
-            cont = Object.assign({}, world.asia, world.europe, world.africa, world.america);
-            console.log(world.asia); // temp
+        case "World":
+            cont = Object.assign({}, allData.asia, allData.europe, allData.africa, allData.america);
             break;
-        case "asia":
-            cont = world.asia;
+        case "Asia":
+            cont = allData.asia;
             break;
-        case "europe":
-            cont = world.europe;
+        case "Europe":
+            cont = allData.europe;
             break;
-        case "africa":
-            cont = world.africa;
-            console.log(cont);
+        case "Africa":
+            cont = allData.africa;
             break;
-        case "america":
-            cont = world.america;
+        case "Americas":
+            cont = allData.america;
             break;
     }
     let countriesArr = [], statsArr = [];
-    for (let i = 0; i < cont.length; i++) {
-        countriesArr.push(cont[i].name);
-        console.log(cont[i].name); ///// temp
+
+    for (let [key, value] of Object.entries(cont)) {
+        countriesArr.push(value._name);
         switch (stats) {
-            case "confirmed":
-                statsArr.push(cont[i].confirmed);
+            case "Confirmed":
+                statsArr.push(value._confirmed);
                 break;
-            case "deaths":
-                statsArr.push(cont[i].deaths);
+            case "Deaths":
+                statsArr.push(value._deaths);
                 break;
-            case "recovered":
-                statsArr.push(cont[i].recovered);
+            case "Recovered":
+                statsArr.push(value._recovered);
                 break;
-            case "critical":
-                statsArr.push(cont[i].critical);
+            case "Critical":
+                statsArr.push(value._critical);
                 break;
         }
     }
+    // console.log(countriesArr)
+    console.log(statsArr)
     drawChart(countriesArr, statsArr, stats);
 }
 
@@ -139,14 +142,18 @@ function filterData(region , stats) {
 
 for (let i = 0; i < regionButtons.length; i++) {
     regionButtons[i].addEventListener(`click`, () => {
+        chartContainer.innerHTML = ``;
         currentRegion = regionButtons[i].innerHTML;
+        console.log(currentRegion);
         filterData(currentRegion, currentStats);
     });
 }
 
-for (let i = 0; i < stats.length; i++) {
-    regionButtons[i].addEventListener(`click`, () => {
-        currentStats = regionButtons[i].innerHTML;
+for (let i = 0; i < statsButtons.length; i++) {
+    statsButtons[i].addEventListener(`click`, () => {
+        chartContainer.innerHTML = ``;
+        currentStats = statsButtons[i].innerHTML;
+        console.log(currentStats);
         filterData(currentRegion, currentStats);
     });
 }

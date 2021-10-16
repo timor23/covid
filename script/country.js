@@ -1,7 +1,7 @@
 class Country {
     constructor(name, confirmed, deaths, critical, recovered) {
-        this.comfirmed = confirmed;
         this._name = name;
+        this._confirmed = confirmed;
         this._confirmed = confirmed;
         this._deaths = deaths;
         this._critical = critical;
