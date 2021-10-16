@@ -17,7 +17,6 @@ const world = {
 }
 // Run
 getData().then(r => console.log(r));
-console.log(world.europe);
 filterData(currentRegion,currentStats);
 
 
@@ -133,8 +132,6 @@ function filterData(region , stats) {
                 break;
         }
     }
-    // console.log(countriesArr)
-    console.log(statsArr)
     drawChart(countriesArr, statsArr, stats);
 }
 
@@ -144,7 +141,6 @@ for (let i = 0; i < regionButtons.length; i++) {
     regionButtons[i].addEventListener(`click`, () => {
         chartContainer.innerHTML = ``;
         currentRegion = regionButtons[i].innerHTML;
-        console.log(currentRegion);
         filterData(currentRegion, currentStats);
     });
 }
@@ -153,7 +149,6 @@ for (let i = 0; i < statsButtons.length; i++) {
     statsButtons[i].addEventListener(`click`, () => {
         chartContainer.innerHTML = ``;
         currentStats = statsButtons[i].innerHTML;
-        console.log(currentStats);
         filterData(currentRegion, currentStats);
     });
 }
