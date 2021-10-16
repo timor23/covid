@@ -16,7 +16,7 @@ const world = {
     america: {}
 }
 // Run
-getData().then(r => console.log(r));
+getData();
 filterData(currentRegion,currentStats);
 
 
